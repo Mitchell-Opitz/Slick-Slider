@@ -3,31 +3,68 @@ using UnityEngine.InputSystem;
 
 public class PlayerInputReader : MonoBehaviour
 {
-    Vector2Int moveInput;
-    bool hasInput;
+    [SerializeField] float bufferSeconds = 0.1f;
+    [SerializeField] float deadzone = 0.2f;
 
-    public bool TryConsumeInput(out Vector2Int dir)
+    Vector2Int heldDir;
+
+    Vector2Int bufferedDir;
+    float bufferExpiresAt;
+
+    public bool TryGetMove(out Vector2Int dir)
     {
-        if (!hasInput)
+        // 1) Tap buffer (consumed once, expires quickly)
+        if (bufferedDir != Vector2Int.zero && Time.time <= bufferExpiresAt)
         {
-            dir = Vector2Int.zero;
-            return false;
+            dir = bufferedDir;
+            bufferedDir = Vector2Int.zero;
+            bufferExpiresAt = 0f;
+            return true;
         }
 
-        dir = moveInput;
-        hasInput = false;
-        return true;
+        // 2) Held input (not consumed; stays active while held)
+        if (heldDir != Vector2Int.zero)
+        {
+            dir = heldDir;
+            return true;
+        }
+
+        dir = Vector2Int.zero;
+        bufferedDir = Vector2Int.zero;
+        bufferExpiresAt = 0f;
+        return false;
     }
 
     public void OnMove(InputAction.CallbackContext ctx)
     {
-        if (!ctx.performed) return;
-
+        // Read every phase so "holding" counts.
         var v = ctx.ReadValue<Vector2>();
-        var x = Mathf.Abs(v.x) > Mathf.Abs(v.y) ? Mathf.Sign(v.x) : 0f;
-        var y = Mathf.Abs(v.y) > Mathf.Abs(v.x) ? Mathf.Sign(v.y) : 0f;
+        if (v.sqrMagnitude < deadzone * deadzone) v = Vector2.zero;
 
-        moveInput = new Vector2Int((int)x, (int)y);
-        hasInput = moveInput != Vector2Int.zero;
+        heldDir = ToCardinal(v);
+
+        if (ctx.performed && heldDir != Vector2Int.zero)
+        {
+            bufferedDir = heldDir;
+            bufferExpiresAt = Time.time + bufferSeconds;
+        }
+
+        if (ctx.canceled)
+        {
+            heldDir = Vector2Int.zero;
+        }
+    }
+
+    static Vector2Int ToCardinal(Vector2 v)
+    {
+        if (v == Vector2.zero) return Vector2Int.zero;
+
+        var ax = Mathf.Abs(v.x);
+        var ay = Mathf.Abs(v.y);
+
+        var x = ax > ay ? (int)Mathf.Sign(v.x) : 0;
+        var y = ay > ax ? (int)Mathf.Sign(v.y) : 0;
+
+        return new Vector2Int(x, y);
     }
 }

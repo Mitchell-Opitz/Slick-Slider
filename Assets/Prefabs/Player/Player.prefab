@@ -219,6 +219,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 26b0d3224d9d1b542b2b187a1a62b674, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bufferSeconds: 0.1
+  deadzone: 0.2
 --- !u!114 &7639042377475245152
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -231,5 +233,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a236a14a224b6345a9c801d3f788738, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slideSpeed: 25
+  slideSpeed: 60
   input: {fileID: 6940929622593848296}

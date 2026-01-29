@@ -7,7 +7,7 @@ public class PlayerController : MonoBehaviour
 
     GridSystem grid;
     bool sliding;
-    Vector2Int bufferedDir;
+
     Vector2Int currentGridPos;
     Vector2 targetWorldPos;
 
@@ -16,6 +16,7 @@ public class PlayerController : MonoBehaviour
         grid = GridService.Instance.Grid;
         currentGridPos = grid.WorldToGrid(transform.position);
         transform.position = grid.GridToWorld(currentGridPos);
+        targetWorldPos = transform.position;
     }
 
     void Update()
@@ -26,11 +27,8 @@ public class PlayerController : MonoBehaviour
             return;
         }
 
-        if (input.TryConsumeInput(out var dir))
-        {
-            if (TryStartSlide(dir)) return;
-            bufferedDir = dir;
-        }
+        if (input.TryGetMove(out var dir))
+            TryStartSlide(dir);
     }
 
     bool TryStartSlide(Vector2Int dir)
@@ -66,18 +64,10 @@ public class PlayerController : MonoBehaviour
             slideSpeed * Time.deltaTime
         );
 
-        if (Vector2.Distance(transform.position, targetWorldPos) < 0.001f)
-        {
-            transform.position = targetWorldPos;
-            sliding = false;
+        if (Vector2.SqrMagnitude((Vector2)transform.position - targetWorldPos) > 0.000001f) return;
 
-            if (bufferedDir != Vector2Int.zero)
-            {
-                var dir = bufferedDir;
-                bufferedDir = Vector2Int.zero;
-                TryStartSlide(dir);
-            }
-        }
+        transform.position = targetWorldPos;
+        sliding = false;
     }
 
     bool IsBlocked(Vector2Int gridPos)
