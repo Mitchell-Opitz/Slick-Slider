@@ -5,17 +5,28 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float slideSpeed = 12f;
     [SerializeField] PlayerInputReader input;
 
+    [Header("Subtle Motion Feel")]
+    [SerializeField, Range(0f, 0.35f)] float accelSeconds = 0.08f;
+    [SerializeField, Range(0f, 0.35f)] float decelSeconds = 0.08f;
+    [SerializeField, Range(0.85f, 1f)] float endSnapDistance = 0.03f;
+
     GridSystem grid;
     bool sliding;
 
     Vector2Int currentGridPos;
+    Vector2 startWorldPos;
     Vector2 targetWorldPos;
+
+    float slideStartTime;
+    float slideTotalDist;
 
     void Start()
     {
         grid = GridService.Instance.Grid;
         currentGridPos = grid.WorldToGrid(transform.position);
         transform.position = grid.GridToWorld(currentGridPos);
+
+        startWorldPos = transform.position;
         targetWorldPos = transform.position;
     }
 
@@ -51,23 +62,46 @@ public class PlayerController : MonoBehaviour
         if (next == currentGridPos) return false;
 
         currentGridPos = next;
+
+        startWorldPos = transform.position;
         targetWorldPos = grid.GridToWorld(currentGridPos);
+
+        slideTotalDist = Vector2.Distance(startWorldPos, targetWorldPos);
+        slideStartTime = Time.time;
+
         sliding = true;
         return true;
     }
 
     void SlideUpdate()
     {
-        transform.position = Vector2.MoveTowards(
-            transform.position,
-            targetWorldPos,
-            slideSpeed * Time.deltaTime
-        );
+        var p = (Vector2)transform.position;
+        var toTarget = Vector2.Distance(p, targetWorldPos);
 
-        if (Vector2.SqrMagnitude((Vector2)transform.position - targetWorldPos) > 0.000001f) return;
+        if (toTarget <= endSnapDistance)
+        {
+            transform.position = targetWorldPos;
+            sliding = false;
+            return;
+        }
 
-        transform.position = targetWorldPos;
-        sliding = false;
+        var baseStep = slideSpeed * Time.deltaTime;
+
+        // Very subtle accel at start, subtle decel near end.
+        var t = Time.time - slideStartTime;
+
+        var accel = accelSeconds <= 0f ? 1f : Mathf.SmoothStep(0.92f, 1f, Mathf.Clamp01(t / accelSeconds));
+
+        var progress = slideTotalDist <= 0.0001f ? 1f : 1f - (toTarget / slideTotalDist);
+        var remaining = 1f - progress;
+
+        var decel = decelSeconds <= 0f
+            ? 1f
+            : Mathf.SmoothStep(0.92f, 1f, Mathf.Clamp01(remaining / (decelSeconds * slideSpeed / Mathf.Max(slideTotalDist, 0.0001f))));
+
+        var step = baseStep * accel * decel;
+
+        transform.position = Vector2.MoveTowards(p, targetWorldPos, step);
     }
 
     bool IsBlocked(Vector2Int gridPos)

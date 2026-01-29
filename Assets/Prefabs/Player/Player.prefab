@@ -235,3 +235,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   slideSpeed: 60
   input: {fileID: 6940929622593848296}
+  accelSeconds: 0.08
+  decelSeconds: 0.08
+  endSnapDistance: 0.85
