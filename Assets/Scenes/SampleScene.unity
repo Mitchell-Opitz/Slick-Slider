@@ -623,7 +623,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8337501416273727508, guid: 36e41030b1ddee8489afc62e0b01eaa3, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 1.8
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8337501416273727508, guid: 36e41030b1ddee8489afc62e0b01eaa3, type: 3}
       propertyPath: m_LocalPosition.y
@@ -827,7 +827,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   world: {fileID: 1445040836}
-  scrollSpeed: 10
+  scrollSpeed: 2
   scrolling: 1
 --- !u!114 &1445040836
 MonoBehaviour:
@@ -1160,7 +1160,7 @@ Transform:
   m_GameObject: {fileID: 2125207079}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 5, y: 2, z: 0}
+  m_LocalPosition: {x: 2, y: 2, z: 0}
   m_LocalScale: {x: 1, y: 5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

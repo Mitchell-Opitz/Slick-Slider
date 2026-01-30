@@ -4,6 +4,7 @@ public class PlayerController : MonoBehaviour
 {
     [SerializeField] float slideSpeed = 12f;
     [SerializeField] PlayerInputReader input;
+    [SerializeField] WorldContainer world;
 
     [Header("Subtle Motion Feel")]
     [SerializeField, Range(0f, 0.35f)] float accelSeconds = 0.08f;
@@ -11,23 +12,35 @@ public class PlayerController : MonoBehaviour
     [SerializeField, Range(0.85f, 1f)] float endSnapDistance = 0.03f;
 
     GridSystem grid;
+    Transform root;
+
     bool sliding;
 
     Vector2Int currentGridPos;
-    Vector2 startWorldPos;
-    Vector2 targetWorldPos;
+    Vector2 startLocalPos;
+    Vector2 targetLocalPos;
 
     float slideStartTime;
     float slideTotalDist;
 
+    void Reset()
+    {
+        if (world == null) world = FindFirstObjectByType<WorldContainer>();
+    }
+
     void Start()
     {
         grid = GridService.Instance.Grid;
-        currentGridPos = grid.WorldToGrid(transform.position);
-        transform.position = grid.GridToWorld(currentGridPos);
+        root = world != null ? world.Root : transform.parent;
 
-        startWorldPos = transform.position;
-        targetWorldPos = transform.position;
+        if (root != null && transform.parent != root)
+            transform.SetParent(root, true);
+
+        currentGridPos = grid.WorldToGrid(transform.localPosition);
+        transform.localPosition = grid.GridToWorld(currentGridPos);
+
+        startLocalPos = transform.localPosition;
+        targetLocalPos = transform.localPosition;
     }
 
     void Update()
@@ -63,10 +76,10 @@ public class PlayerController : MonoBehaviour
 
         currentGridPos = next;
 
-        startWorldPos = transform.position;
-        targetWorldPos = grid.GridToWorld(currentGridPos);
+        startLocalPos = transform.localPosition;
+        targetLocalPos = grid.GridToWorld(currentGridPos);
 
-        slideTotalDist = Vector2.Distance(startWorldPos, targetWorldPos);
+        slideTotalDist = Vector2.Distance(startLocalPos, targetLocalPos);
         slideStartTime = Time.time;
 
         sliding = true;
@@ -75,21 +88,19 @@ public class PlayerController : MonoBehaviour
 
     void SlideUpdate()
     {
-        var p = (Vector2)transform.position;
-        var toTarget = Vector2.Distance(p, targetWorldPos);
+        var p = (Vector2)transform.localPosition;
+        var toTarget = Vector2.Distance(p, targetLocalPos);
 
         if (toTarget <= endSnapDistance)
         {
-            transform.position = targetWorldPos;
+            transform.localPosition = targetLocalPos;
             sliding = false;
             return;
         }
 
         var baseStep = slideSpeed * Time.deltaTime;
 
-        // Very subtle accel at start, subtle decel near end.
         var t = Time.time - slideStartTime;
-
         var accel = accelSeconds <= 0f ? 1f : Mathf.SmoothStep(0.92f, 1f, Mathf.Clamp01(t / accelSeconds));
 
         var progress = slideTotalDist <= 0.0001f ? 1f : 1f - (toTarget / slideTotalDist);
@@ -101,12 +112,14 @@ public class PlayerController : MonoBehaviour
 
         var step = baseStep * accel * decel;
 
-        transform.position = Vector2.MoveTowards(p, targetWorldPos, step);
+        transform.localPosition = Vector2.MoveTowards(p, targetLocalPos, step);
     }
 
     bool IsBlocked(Vector2Int gridPos)
     {
-        var worldPos = grid.GridToWorld(gridPos);
+        var localPos = grid.GridToWorld(gridPos);
+        var worldPos = root != null ? (Vector2)root.TransformPoint(localPos) : localPos;
+
         var hits = Physics2D.OverlapPointAll(worldPos);
 
         foreach (var h in hits)
