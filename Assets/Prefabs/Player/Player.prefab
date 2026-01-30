@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 1174858993774811233}
   - component: {fileID: 6940929622593848296}
   - component: {fileID: 7639042377475245152}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -235,6 +235,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   slideSpeed: 60
   input: {fileID: 6940929622593848296}
+  world: {fileID: 0}
   accelSeconds: 0.08
   decelSeconds: 0.08
   endSnapDistance: 0.85
