@@ -23,6 +23,9 @@ public class PlayerController : MonoBehaviour
     float slideStartTime;
     float slideTotalDist;
 
+    TrailRenderer trail;
+    Coroutine disableTrailRoutine;
+
     void Reset()
     {
         if (world == null) world = FindFirstObjectByType<WorldContainer>();
@@ -41,6 +44,9 @@ public class PlayerController : MonoBehaviour
 
         startLocalPos = transform.localPosition;
         targetLocalPos = transform.localPosition;
+
+        trail = GetComponent<TrailRenderer>();
+        if (trail != null) trail.enabled = false;
     }
 
     void Update()
@@ -83,6 +89,15 @@ public class PlayerController : MonoBehaviour
         slideStartTime = Time.time;
 
         sliding = true;
+
+        if (trail != null)
+        {
+            trail.enabled = true;
+
+            if (disableTrailRoutine != null)
+                StopCoroutine(disableTrailRoutine);
+        }
+
         return true;
     }
 
@@ -95,6 +110,10 @@ public class PlayerController : MonoBehaviour
         {
             transform.localPosition = targetLocalPos;
             sliding = false;
+
+            if (trail != null)
+                disableTrailRoutine = StartCoroutine(DisableTrailAfterTime());
+
             return;
         }
 
@@ -113,6 +132,12 @@ public class PlayerController : MonoBehaviour
         var step = baseStep * accel * decel;
 
         transform.localPosition = Vector2.MoveTowards(p, targetLocalPos, step);
+    }
+
+    System.Collections.IEnumerator DisableTrailAfterTime()
+    {
+        yield return new WaitForSeconds(trail.time);
+        trail.enabled = false;
     }
 
     bool IsBlocked(Vector2Int gridPos)
