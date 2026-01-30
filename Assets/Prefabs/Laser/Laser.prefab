@@ -205,14 +205,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   worldCollisionMask:
     serializedVersion: 2
-    m_Bits: 8
+    m_Bits: 64
   playerMask:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 128
+  destroyMask:
+    serializedVersion: 2
+    m_Bits: 8
   startOffsetLocal: {x: 0, y: 0, z: 0}
   maxDistance: 15
   useUpAxis: 1
   enabledLaser: 1
+  destroyParticlesPrefab: {fileID: 6764048070964125076, guid: fba961a1b4faf8640b5ed306b07b0975, type: 3}
+  destroySfx: {fileID: 0}
+  playerDeathSfx: {fileID: 0}
 --- !u!114 &4805665839155155532
 MonoBehaviour:
   m_ObjectHideFlags: 0

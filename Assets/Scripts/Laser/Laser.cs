@@ -7,14 +7,20 @@ public sealed class Laser : MonoBehaviour
     [Header("Raycast")]
     [SerializeField] LayerMask worldCollisionMask;
     [SerializeField] LayerMask playerMask;
+    [SerializeField] LayerMask destroyMask;
     [SerializeField] Vector3 startOffsetLocal = Vector3.zero;
     [SerializeField] float maxDistance = 1000f;
 
     [Header("Direction")]
-    [SerializeField] bool useUpAxis = true; // true = shoots along transform.up, false = transform.right
+    [SerializeField] bool useUpAxis = true;
 
     [Header("State")]
     [SerializeField] bool enabledLaser = true;
+
+    [Header("FX")]
+    [SerializeField] ParticleSystem destroyParticlesPrefab;
+    [SerializeField] AudioClip destroySfx;
+    [SerializeField] AudioClip playerDeathSfx;
 
     LineRenderer lr;
     Vector3 dirWorld;
@@ -45,6 +51,7 @@ public sealed class Laser : MonoBehaviour
         lr.SetPosition(1, endLocal);
 
         CheckPlayerHit(endLocal);
+        CheckDestroyables(endLocal);
     }
 
     public void SetEnabled(bool value)
@@ -64,6 +71,21 @@ public sealed class Laser : MonoBehaviour
         return transform.InverseTransformPoint(endWorld);
     }
 
+    void DoDestroyFX(GameObject go, Vector2 hitPoint, bool isPlayer)
+    {
+        Color c = Color.white;
+        var sr = go.GetComponent<SpriteRenderer>();
+        if (sr != null) c = sr.color;
+
+        var ps = Instantiate(destroyParticlesPrefab, hitPoint, Quaternion.identity);
+        var main = ps.main;
+        main.startColor = c;
+
+        //AudioSource.PlayClipAtPoint(isPlayer ? playerDeathSfx : destroySfx, hitPoint);
+
+        Destroy(go);
+    }
+
     void CheckPlayerHit(Vector3 endLocal)
     {
         var originWorld = transform.position;
@@ -73,7 +95,23 @@ public sealed class Laser : MonoBehaviour
         var hit = Physics2D.Raycast(originWorld, dirWorld, dist, playerMask);
         if (hit.collider != null)
         {
-            //hook death
+            Debug.Log("Game Over");
+
+            DoDestroyFX(hit.collider.gameObject, hit.point, true);
+
+            //GameEvents.OnPlayerDeath?.Invoke();
         }
+    }
+
+    void CheckDestroyables(Vector3 endLocal)
+    {
+        var originWorld = transform.position;
+        var endWorld = transform.TransformPoint(endLocal);
+        var dist = Vector2.Distance(originWorld, endWorld);
+
+        var hit = Physics2D.Raycast(originWorld, dirWorld, dist, destroyMask);
+        if (hit.collider == null) return;
+
+        DoDestroyFX(hit.collider.gameObject, hit.point, false);
     }
 }
