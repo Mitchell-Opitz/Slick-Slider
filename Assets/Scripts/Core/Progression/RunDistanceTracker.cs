@@ -1,4 +1,5 @@
 using UnityEngine;
+using System;
 
 public sealed class RunDistanceTracker : MonoBehaviour
 {
@@ -10,6 +11,8 @@ public sealed class RunDistanceTracker : MonoBehaviour
 
     int lastGridX;
     public int Distance { get; private set; }
+
+    public event Action<int> OnDistanceChanged;
 
     void Reset()
     {
@@ -38,7 +41,8 @@ public sealed class RunDistanceTracker : MonoBehaviour
         {
             Distance += (gridPos.x - lastGridX);
             lastGridX = gridPos.x;
-            Debug.Log("Distance: " + Distance);
+
+            OnDistanceChanged?.Invoke(Distance);
         }
     }
 }

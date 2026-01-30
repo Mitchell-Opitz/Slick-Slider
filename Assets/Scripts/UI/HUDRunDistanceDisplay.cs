@@ -12,8 +12,20 @@ public sealed class HUDRunDistanceDisplay : MonoBehaviour
         if (text == null) text = GetComponent<TMP_Text>();
     }
 
-    void Update()
+    void OnEnable()
     {
-        text.text = "Distance: " + tracker.Distance.ToString();
+        if (tracker != null)
+            tracker.OnDistanceChanged += HandleDistanceChanged;
+    }
+
+    void OnDisable()
+    {
+        if (tracker != null)
+            tracker.OnDistanceChanged -= HandleDistanceChanged;
+    }
+
+    void HandleDistanceChanged(int newDistance)
+    {
+        text.text = "Distance: " + newDistance.ToString();
     }
 }
