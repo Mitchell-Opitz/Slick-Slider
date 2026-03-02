@@ -8,6 +8,10 @@ public sealed class WorldContainer : MonoBehaviour
 
     public Transform Root => root != null ? root : transform;
 
+    public Vector3 StartPosition => startPos;
+
+    public float DistanceTraveledX => startPos.x - Root.position.x;
+
     void Awake()
     {
         startPos = Root.position;

@@ -154,9 +154,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76648ad6f2083aa46906154d4e6c2f72, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gridHeight: 10
+  gridHeight: 18
   obstaclePrefab: {fileID: 2306735269557413148, guid: 941bb84866617254b987488b1f172130, type: 3}
-  obstaclesPerColumn: 1
+  obstaclesPerColumn: 3
 --- !u!114 &131853809
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -185,6 +185,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   queue: {fileID: 131853809}
   world: {fileID: 1445040836}
+  config: {fileID: 11400000, guid: 69de6cb3d6daf4340a3cf09defc66d7f, type: 2}
+  spawnWorldX: 18
 --- !u!4 &131853811
 Transform:
   m_ObjectHideFlags: 0
@@ -213,7 +215,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spawner: {fileID: 131853810}
-  spawnInterval: 1
+  scrollSystem: {fileID: 1445040835}
+  config: {fileID: 11400000, guid: 69de6cb3d6daf4340a3cf09defc66d7f, type: 2}
 --- !u!1 &371857023
 GameObject:
   m_ObjectHideFlags: 0

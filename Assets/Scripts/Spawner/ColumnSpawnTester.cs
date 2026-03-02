@@ -1,23 +1,25 @@
 using UnityEngine;
-
 public sealed class ColumnSpawnTester : MonoBehaviour
 {
     [SerializeField] ColumnSpawner spawner;
-    [SerializeField] float spawnInterval = 1f;
+    [SerializeField] WorldScrollSystem scrollSystem;
+    [SerializeField] GridConfig config;
+    float distanceTraveled;
+    float nextSpawnAt;
 
-    float timer;
-
-    void Reset()
+    void Start()
     {
-        if (spawner == null) spawner = GetComponent<ColumnSpawner>();
+        nextSpawnAt = config.cellSize;
+        spawner.SpawnNextColumn();
     }
 
     void Update()
     {
-        timer += Time.deltaTime;
-        if (timer >= spawnInterval)
+        if (scrollSystem == null || !scrollSystem.Scrolling) return;
+        distanceTraveled += scrollSystem.ScrollSpeed * Time.deltaTime;
+        if (distanceTraveled >= nextSpawnAt)
         {
-            timer = 0f;
+            nextSpawnAt += config.cellSize;
             spawner.SpawnNextColumn();
         }
     }
