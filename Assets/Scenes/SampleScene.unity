@@ -134,7 +134,6 @@ GameObject:
   - component: {fileID: 131853810}
   - component: {fileID: 131853809}
   - component: {fileID: 131853808}
-  - component: {fileID: 131853812}
   m_Layer: 0
   m_Name: ColumnSystem
   m_TagString: Untagged
@@ -156,7 +155,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gridHeight: 18
   obstaclePrefab: {fileID: 2306735269557413148, guid: 941bb84866617254b987488b1f172130, type: 3}
-  obstaclesPerColumn: 3
+  obstaclesPerColumn: 2
 --- !u!114 &131853809
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -186,6 +185,7 @@ MonoBehaviour:
   queue: {fileID: 131853809}
   world: {fileID: 1445040836}
   config: {fileID: 11400000, guid: 69de6cb3d6daf4340a3cf09defc66d7f, type: 2}
+  scrollSystem: {fileID: 1445040835}
   spawnWorldX: 18
 --- !u!4 &131853811
 Transform:
@@ -202,21 +202,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &131853812
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 131853807}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dcc68928e484f774aa818c301bf644f5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  spawner: {fileID: 131853810}
-  scrollSystem: {fileID: 1445040835}
-  config: {fileID: 11400000, guid: 69de6cb3d6daf4340a3cf09defc66d7f, type: 2}
 --- !u!1 &371857023
 GameObject:
   m_ObjectHideFlags: 0
