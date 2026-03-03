@@ -96,7 +96,7 @@ public sealed class Laser : MonoBehaviour
         if (hit.collider != null)
         {
             Debug.Log("Game Over");
-
+            ScreenShake.Instance?.Shake(0.5f, 1.0f);
             DoDestroyFX(hit.collider.gameObject, hit.point, true);
 
             //GameEvents.OnPlayerDeath?.Invoke();
