@@ -148,14 +148,20 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 131853807}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 76648ad6f2083aa46906154d4e6c2f72, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   gridHeight: 18
   obstaclePrefab: {fileID: 2306735269557413148, guid: 941bb84866617254b987488b1f172130, type: 3}
-  obstaclesPerColumn: 2
+  difficulty: {fileID: 410021197}
+  baseCorridorWidth: 4
+  minCorridorWidth: 2
+  basePathCount: 3
+  minPathCount: 1
+  baseTurnChance: 0.3
+  maxTurnChance: 0.65
 --- !u!114 &131853809
 MonoBehaviour:
   m_ObjectHideFlags: 0
