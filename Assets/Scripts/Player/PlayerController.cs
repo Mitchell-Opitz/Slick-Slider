@@ -6,6 +6,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] PlayerInputReader input;
     [SerializeField] WorldContainer world;
     [SerializeField] PlayerSquashStretch squashStretch;
+    [SerializeField] PlayerShake playerShake;
 
     [Header("Subtle Motion Feel")]
     [SerializeField, Range(0f, 0.35f)] float accelSeconds = 0.08f;
@@ -114,6 +115,7 @@ public class PlayerController : MonoBehaviour
             transform.localPosition = targetLocalPos;
             sliding = false;
             squashStretch?.OnSlideEnded();
+            playerShake?.OnSlideEnded(slideTotalDist);
 
             if (trail != null)
                 disableTrailRoutine = StartCoroutine(DisableTrailAfterTime());
