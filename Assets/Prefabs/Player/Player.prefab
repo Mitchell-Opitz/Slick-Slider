@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 6940929622593848296}
   - component: {fileID: 7639042377475245152}
   - component: {fileID: 8299927430429500230}
+  - component: {fileID: 8377865726733423438}
   m_Layer: 7
   m_Name: Player
   m_TagString: Untagged
@@ -237,6 +238,7 @@ MonoBehaviour:
   slideSpeed: 60
   input: {fileID: 6940929622593848296}
   world: {fileID: 0}
+  squashStretch: {fileID: 8377865726733423438}
   accelSeconds: 0.08
   decelSeconds: 0.08
   endSnapDistance: 0.85
@@ -261,7 +263,7 @@ TrailRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10302, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -292,7 +294,7 @@ TrailRenderer:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 0.79999924
+        value: 0.5999985
         inSlope: -0.34160522
         outSlope: -0.34160522
         tangentMode: 0
@@ -353,3 +355,19 @@ TrailRenderer:
   m_Autodestruct: 1
   m_Emitting: 1
   m_ApplyActiveColorSpace: 1
+--- !u!114 &8377865726733423438
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5198783365679169818}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 66fe917256ae7ef428913da724c807c6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 7639042377475245152}
+  squashStretchSeconds: 0.12
+  stretchAmount: 1.35
+  squashAmount: 0.7

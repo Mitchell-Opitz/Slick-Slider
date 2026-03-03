@@ -5,6 +5,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float slideSpeed = 12f;
     [SerializeField] PlayerInputReader input;
     [SerializeField] WorldContainer world;
+    [SerializeField] PlayerSquashStretch squashStretch;
 
     [Header("Subtle Motion Feel")]
     [SerializeField, Range(0f, 0.35f)] float accelSeconds = 0.08f;
@@ -29,6 +30,7 @@ public class PlayerController : MonoBehaviour
     void Reset()
     {
         if (world == null) world = FindFirstObjectByType<WorldContainer>();
+        if (squashStretch == null) squashStretch = GetComponent<PlayerSquashStretch>();
     }
 
     void Start()
@@ -89,6 +91,7 @@ public class PlayerController : MonoBehaviour
         slideStartTime = Time.time;
 
         sliding = true;
+        squashStretch?.OnSlideStarted(dir);
 
         if (trail != null)
         {
@@ -110,6 +113,7 @@ public class PlayerController : MonoBehaviour
         {
             transform.localPosition = targetLocalPos;
             sliding = false;
+            squashStretch?.OnSlideEnded();
 
             if (trail != null)
                 disableTrailRoutine = StartCoroutine(DisableTrailAfterTime());
