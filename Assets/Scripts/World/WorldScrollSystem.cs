@@ -3,8 +3,11 @@ using UnityEngine;
 public sealed class WorldScrollSystem : MonoBehaviour
 {
     [SerializeField] WorldContainer world;
-    [SerializeField] float scrollSpeed = 3f;
+    [SerializeField] DifficultyManager difficulty;
+    [SerializeField] float baseScrollSpeed = 3f;
     [SerializeField] bool scrolling = true;
+
+    float scrollSpeed;
 
     public float ScrollSpeed
     {
@@ -21,6 +24,24 @@ public sealed class WorldScrollSystem : MonoBehaviour
     void Reset()
     {
         world = FindFirstObjectByType<WorldContainer>();
+        difficulty = FindFirstObjectByType<DifficultyManager>();
+    }
+
+    void Start()
+    {
+        scrollSpeed = baseScrollSpeed;
+    }
+
+    void OnEnable()
+    {
+        if (difficulty != null)
+            difficulty.OnLevelChanged += HandleLevelChanged;
+    }
+
+    void OnDisable()
+    {
+        if (difficulty != null)
+            difficulty.OnLevelChanged -= HandleLevelChanged;
     }
 
     void Update()
@@ -36,5 +57,10 @@ public sealed class WorldScrollSystem : MonoBehaviour
     {
         if (world == null) return;
         world.ResetToStart();
+    }
+
+    void HandleLevelChanged(int level)
+    {
+        scrollSpeed = baseScrollSpeed * (1f + (level / 10f));
     }
 }

@@ -4,9 +4,9 @@ using System;
 public sealed class DifficultyManager : MonoBehaviour
 {
     [SerializeField] RunDistanceTracker tracker;
+    [SerializeField, Min(1)] int unitsPerLevel = 100;
 
     public int CurrentLevel { get; private set; } = 1;
-
     public event Action<int> OnLevelChanged;
 
     void Reset()
@@ -29,7 +29,6 @@ public sealed class DifficultyManager : MonoBehaviour
     void HandleDistanceChanged(int distance)
     {
         int newLevel = CalculateLevel(distance);
-
         if (newLevel > CurrentLevel)
         {
             CurrentLevel = newLevel;
@@ -39,10 +38,6 @@ public sealed class DifficultyManager : MonoBehaviour
 
     int CalculateLevel(int distance)
     {
-        // Level 1 = 0–99
-        // Level 2 = 100–199
-        // Level 3 = 200–299
-        // etc.
-        return Mathf.FloorToInt(distance / 100f) + 1;
+        return Mathf.FloorToInt((float)distance / unitsPerLevel) + 1;
     }
 }

@@ -381,6 +381,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tracker: {fileID: 1064269719}
+  unitsPerLevel: 20
 --- !u!4 &410021198
 Transform:
   m_ObjectHideFlags: 0
@@ -1438,7 +1439,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   world: {fileID: 1445040836}
-  scrollSpeed: 10
+  difficulty: {fileID: 410021197}
+  baseScrollSpeed: 3
   scrolling: 1
 --- !u!114 &1445040836
 MonoBehaviour:
