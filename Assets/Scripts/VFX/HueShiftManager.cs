@@ -9,6 +9,7 @@ public sealed class HueShiftManager : MonoBehaviour
     [SerializeField] float degreesPerLevel = 15f;
 
     readonly List<HueShiftable> shiftables = new();
+    float currentDegrees;
 
     void Reset()
     {
@@ -33,13 +34,18 @@ public sealed class HueShiftManager : MonoBehaviour
             difficultyManager.OnLevelChanged -= HandleLevelChanged;
     }
 
-    public void Register(HueShiftable s) => shiftables.Add(s);
+    public void Register(HueShiftable s)
+    {
+        shiftables.Add(s);
+        s.ApplyShift(currentDegrees);
+    }
+
     public void Unregister(HueShiftable s) => shiftables.Remove(s);
 
     void HandleLevelChanged(int newLevel)
     {
-        float totalDegrees = (newLevel - 1) * degreesPerLevel;
+        currentDegrees = (newLevel - 1) * degreesPerLevel;
         foreach (var s in shiftables)
-            s.ApplyShift(totalDegrees);
+            s.ApplyShift(currentDegrees);
     }
 }
