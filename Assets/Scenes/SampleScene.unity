@@ -619,6 +619,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   baseColor: {r: 1, g: 1, b: 1, a: 1}
+  baseColorSecondary: {r: 1, g: 1, b: 1, a: 1}
   captureOnAwake: 1
 --- !u!1 &520991177
 GameObject:
@@ -1234,6 +1235,10 @@ PrefabInstance:
       propertyPath: playerShake
       value: 
       objectReference: {fileID: 1268201923}
+    - target: {fileID: 7639042377475245152, guid: 36e41030b1ddee8489afc62e0b01eaa3, type: 3}
+      propertyPath: impactParticlesPrefab
+      value: 
+      objectReference: {fileID: 9120667709671521717, guid: 2c53d5a06238f9349ba289fbcc1f1c8c, type: 3}
     - target: {fileID: 8337501416273727508, guid: 36e41030b1ddee8489afc62e0b01eaa3, type: 3}
       propertyPath: m_LocalPosition.x
       value: 1
@@ -1557,6 +1562,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   baseColor: {r: 1, g: 1, b: 1, a: 1}
+  baseColorSecondary: {r: 1, g: 1, b: 1, a: 1}
   captureOnAwake: 1
 --- !u!1 &1427878012 stripped
 GameObject:
@@ -1576,6 +1582,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   baseColor: {r: 1, g: 1, b: 1, a: 1}
+  baseColorSecondary: {r: 1, g: 1, b: 1, a: 1}
   captureOnAwake: 1
 --- !u!1 &1445040834
 GameObject:
@@ -1734,6 +1741,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   baseColor: {r: 1, g: 1, b: 1, a: 1}
+  baseColorSecondary: {r: 1, g: 1, b: 1, a: 1}
   captureOnAwake: 1
 --- !u!1 &1869729677 stripped
 GameObject:
@@ -1753,6 +1761,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   baseColor: {r: 1, g: 1, b: 1, a: 1}
+  baseColorSecondary: {r: 1, g: 1, b: 1, a: 1}
   captureOnAwake: 1
 --- !u!1 &1877561154 stripped
 GameObject:
@@ -1953,6 +1962,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   baseColor: {r: 1, g: 1, b: 1, a: 1}
+  baseColorSecondary: {r: 1, g: 1, b: 1, a: 1}
   captureOnAwake: 1
 --- !u!1001 &561346236204685357
 PrefabInstance:

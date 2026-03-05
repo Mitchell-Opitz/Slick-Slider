@@ -7,6 +7,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] WorldContainer world;
     [SerializeField] PlayerSquashStretch squashStretch;
     [SerializeField] PlayerShake playerShake;
+    [SerializeField] ParticleSystem impactParticlesPrefab;
 
     [Header("Subtle Motion Feel")]
     [SerializeField, Range(0f, 0.35f)] float accelSeconds = 0.08f;
@@ -19,6 +20,7 @@ public class PlayerController : MonoBehaviour
     bool sliding;
 
     Vector2Int currentGridPos;
+    Vector2Int lastSlideDir;
     Vector2 startLocalPos;
     Vector2 targetLocalPos;
 
@@ -84,6 +86,7 @@ public class PlayerController : MonoBehaviour
         if (next == currentGridPos) return false;
 
         currentGridPos = next;
+        lastSlideDir = dir;
 
         startLocalPos = transform.localPosition;
         targetLocalPos = grid.GridToWorld(currentGridPos);
@@ -116,6 +119,7 @@ public class PlayerController : MonoBehaviour
             sliding = false;
             squashStretch?.OnSlideEnded();
             playerShake?.OnSlideEnded(slideTotalDist);
+            SpawnImpactParticles();
 
             if (trail != null)
                 disableTrailRoutine = StartCoroutine(DisableTrailAfterTime());
@@ -138,6 +142,19 @@ public class PlayerController : MonoBehaviour
         var step = baseStep * accel * decel;
 
         transform.localPosition = Vector2.MoveTowards(p, targetLocalPos, step);
+    }
+
+    void SpawnImpactParticles()
+    {
+        if (impactParticlesPrefab == null) return;
+
+        var worldPos = root != null ? (Vector2)root.TransformPoint(targetLocalPos) : targetLocalPos;
+        var spawnPos = worldPos + (Vector2)lastSlideDir * 0.5f;
+        var rotation = Quaternion.FromToRotation(Vector2.right, (Vector2)lastSlideDir);
+        var ps = Instantiate(impactParticlesPrefab, spawnPos, rotation);
+        var emission = ps.emission;
+        emission.rateOverTime = Mathf.Max(10f, slideTotalDist * 2f);
+        ps.Play();
     }
 
     System.Collections.IEnumerator DisableTrailAfterTime()
