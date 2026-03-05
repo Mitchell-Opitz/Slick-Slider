@@ -13,6 +13,8 @@ public sealed class LaserVisuals : MonoBehaviour
 
     LineRenderer lr;
 
+    public Color LaserColor => laserColor;
+
     void Awake()
     {
         lr = GetComponent<LineRenderer>();
