@@ -9,6 +9,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField] PlayerShake playerShake;
     [SerializeField] ParticleSystem impactParticlesPrefab;
 
+    [SerializeField] AudioClip collideSfx;
+    [SerializeField, Range(0f, 1f)] float collideVolume = 0.2f;
+
     [Header("Subtle Motion Feel")]
     [SerializeField, Range(0f, 0.35f)] float accelSeconds = 0.08f;
     [SerializeField, Range(0f, 0.35f)] float decelSeconds = 0.08f;
@@ -119,6 +122,8 @@ public class PlayerController : MonoBehaviour
             sliding = false;
             squashStretch?.OnSlideEnded();
             playerShake?.OnSlideEnded(slideTotalDist);
+            if (collideSfx != null)
+                AudioSource.PlayClipAtPoint(collideSfx, Camera.main.transform.position, collideVolume);
             SpawnImpactParticles();
 
             if (trail != null)

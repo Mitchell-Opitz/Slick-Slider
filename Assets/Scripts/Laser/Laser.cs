@@ -81,7 +81,7 @@ public sealed class Laser : MonoBehaviour
         var main = ps.main;
         main.startColor = c;
 
-        //AudioSource.PlayClipAtPoint(isPlayer ? playerDeathSfx : destroySfx, hitPoint);
+        AudioSource.PlayClipAtPoint(isPlayer ? playerDeathSfx : destroySfx, Camera.main.transform.position);
 
         Destroy(go);
     }

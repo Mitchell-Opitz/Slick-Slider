@@ -243,6 +243,8 @@ MonoBehaviour:
   squashStretch: {fileID: 8377865726733423438}
   playerShake: {fileID: 5360595959176987869}
   impactParticlesPrefab: {fileID: 0}
+  collideSfx: {fileID: 8300000, guid: a86cd89d011f1c1499637f7ef4a90837, type: 3}
+  collideVolume: 0.6
   accelSeconds: 0.08
   decelSeconds: 0.08
   endSnapDistance: 0.85
