@@ -34,6 +34,8 @@ public sealed class RunDistanceTracker : MonoBehaviour
 
     void Update()
     {
+        if (player == null) return;
+
         var localPos = player.transform.localPosition;
         var gridPos = grid.WorldToGrid(localPos);
 
@@ -41,7 +43,6 @@ public sealed class RunDistanceTracker : MonoBehaviour
         {
             Distance += (gridPos.x - lastGridX);
             lastGridX = gridPos.x;
-
             OnDistanceChanged?.Invoke(Distance);
         }
     }
