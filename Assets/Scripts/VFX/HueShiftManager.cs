@@ -4,9 +4,10 @@ using System.Collections.Generic;
 public sealed class HueShiftManager : MonoBehaviour
 {
     public static HueShiftManager Instance { get; private set; }
-
     [SerializeField] DifficultyManager difficultyManager;
     [SerializeField] float degreesPerLevel = 15f;
+
+    static readonly Color obstacleBaseColor = new Color(0x37 / 255f, 0x7F / 255f, 0xE2 / 255f);
 
     readonly List<HueShiftable> shiftables = new();
     float currentDegrees;
@@ -47,5 +48,7 @@ public sealed class HueShiftManager : MonoBehaviour
         currentDegrees = (newLevel - 1) * degreesPerLevel;
         foreach (var s in shiftables)
             s.ApplyShift(currentDegrees);
+
+        ScreenFlash.Instance?.Flash(HueShift.Shift(obstacleBaseColor, currentDegrees));
     }
 }
