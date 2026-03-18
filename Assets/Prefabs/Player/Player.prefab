@@ -18,6 +18,7 @@ GameObject:
   - component: {fileID: 8299927430429500230}
   - component: {fileID: 8377865726733423438}
   - component: {fileID: 5360595959176987869}
+  - component: {fileID: 7781494565938464409}
   m_Layer: 7
   m_Name: Player
   m_TagString: Untagged
@@ -241,6 +242,7 @@ MonoBehaviour:
   world: {fileID: 0}
   squashStretch: {fileID: 8377865726733423438}
   playerShake: {fileID: 5360595959176987869}
+  impactParticlesPrefab: {fileID: 0}
   accelSeconds: 0.08
   decelSeconds: 0.08
   endSnapDistance: 0.85
@@ -411,4 +413,26 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   shakeDuration: 0.05
+  hapticDuration: 0.15
   minimumDistance: 3
+  hapticMinDistance: 5
+  hapticMaxDistance: 20
+  hapticMinStrength: 0.01
+  hapticMaxStrength: 0.15
+--- !u!114 &7781494565938464409
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5198783365679169818}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d78cb8affc2a144cbcb55a9fa22c8f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  laser: {fileID: 0}
+  maxDistance: 10
+  minDistance: 1
+  hapticAtMaxDistance: 0.1
+  hapticAtMinDistance: 0.75

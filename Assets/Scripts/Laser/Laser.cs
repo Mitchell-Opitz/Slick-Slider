@@ -97,8 +97,8 @@ public sealed class Laser : MonoBehaviour
         {
             Debug.Log("Game Over");
             ScreenShake.Instance?.Shake(0.5f, 1.0f);
+            HapticManager.Instance?.TriggerDeath();
             DoDestroyFX(hit.collider.gameObject, hit.point, true);
-
             //GameEvents.OnPlayerDeath?.Invoke();
         }
     }
