@@ -99,6 +99,7 @@ public sealed class Laser : MonoBehaviour
             ScreenShake.Instance?.Shake(0.5f, 1.0f);
             HapticManager.Instance?.TriggerDeath();
             ScreenFlash.Instance?.Flash(GetComponent<LaserVisuals>().LaserColor);
+            GameOverScreen.Instance.TriggerGameOver();
             DoDestroyFX(hit.collider.gameObject, hit.point, true);
             //GameEvents.OnPlayerDeath?.Invoke();
         }
