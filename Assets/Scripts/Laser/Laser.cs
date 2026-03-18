@@ -81,7 +81,7 @@ public sealed class Laser : MonoBehaviour
         var main = ps.main;
         main.startColor = c;
 
-        //AudioSource.PlayClipAtPoint(isPlayer ? playerDeathSfx : destroySfx, hitPoint);
+        AudioSource.PlayClipAtPoint(isPlayer ? playerDeathSfx : destroySfx, Camera.main.transform.position);
 
         Destroy(go);
     }
@@ -96,9 +96,11 @@ public sealed class Laser : MonoBehaviour
         if (hit.collider != null)
         {
             Debug.Log("Game Over");
-
+            ScreenShake.Instance?.Shake(0.5f, 1.0f);
+            HapticManager.Instance?.TriggerDeath();
+            ScreenFlash.Instance?.Flash(GetComponent<LaserVisuals>().LaserColor);
+            GameOverScreen.Instance.TriggerGameOver();
             DoDestroyFX(hit.collider.gameObject, hit.point, true);
-
             //GameEvents.OnPlayerDeath?.Invoke();
         }
     }

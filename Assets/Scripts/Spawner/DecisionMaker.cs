@@ -39,6 +39,7 @@ public sealed class DecisionMaker : MonoBehaviour
 
     public void EnqueueNext(ColumnQueue queue)
     {
+        if (bumpers == null) return;
         int local = columnCounter - bufferStartColumn;
 
         if (local >= bumpers.GetLength(0) - 8)

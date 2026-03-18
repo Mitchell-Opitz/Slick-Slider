@@ -24,6 +24,7 @@ public sealed class ColumnQueue : MonoBehaviour
     {
         if (queue.Count == 0)
             decisionMaker.EnqueueNext(this);
+        if (queue.Count == 0) return default;
         return queue.Peek();
     }
 }

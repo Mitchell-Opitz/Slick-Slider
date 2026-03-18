@@ -44,7 +44,12 @@ public sealed class ColumnSpawner : MonoBehaviour
     {
         if (config == null) return;
         Gizmos.color = Color.yellow;
-        int height = queue != null ? queue.PeekNext().cells.Length : 10;
+        int height = 10;
+        if (queue != null)
+        {
+            var peek = queue.PeekNext();
+            if (peek.cells != null) height = peek.cells.Length;
+        }
         int col = Mathf.RoundToInt((spawnWorldX - config.worldOffset.x) / config.cellSize);
         for (int y = 0; y < height; y++)
         {

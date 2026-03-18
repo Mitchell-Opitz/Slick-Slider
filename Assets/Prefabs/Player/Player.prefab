@@ -16,6 +16,9 @@ GameObject:
   - component: {fileID: 6940929622593848296}
   - component: {fileID: 7639042377475245152}
   - component: {fileID: 8299927430429500230}
+  - component: {fileID: 8377865726733423438}
+  - component: {fileID: 5360595959176987869}
+  - component: {fileID: 7781494565938464409}
   m_Layer: 7
   m_Name: Player
   m_TagString: Untagged
@@ -237,6 +240,11 @@ MonoBehaviour:
   slideSpeed: 60
   input: {fileID: 6940929622593848296}
   world: {fileID: 0}
+  squashStretch: {fileID: 8377865726733423438}
+  playerShake: {fileID: 5360595959176987869}
+  impactParticlesPrefab: {fileID: 0}
+  collideSfx: {fileID: 8300000, guid: a86cd89d011f1c1499637f7ef4a90837, type: 3}
+  collideVolume: 0.6
   accelSeconds: 0.08
   decelSeconds: 0.08
   endSnapDistance: 0.85
@@ -261,7 +269,7 @@ TrailRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10302, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -292,7 +300,7 @@ TrailRenderer:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 0.79999924
+        value: 0.5999985
         inSlope: -0.34160522
         outSlope: -0.34160522
         tangentMode: 0
@@ -353,3 +361,80 @@ TrailRenderer:
   m_Autodestruct: 1
   m_Emitting: 1
   m_ApplyActiveColorSpace: 1
+--- !u!114 &8377865726733423438
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5198783365679169818}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 66fe917256ae7ef428913da724c807c6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 7639042377475245152}
+  squashStretchSeconds: 0.12
+  stretchAmount: 1.35
+  squashAmount: 0.7
+--- !u!114 &5360595959176987869
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5198783365679169818}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: afcd83bdcd8477b438235c045ca64b6d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 7639042377475245152}
+  intensityCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 20.412506
+      value: 0.9978447
+      inSlope: 0.1
+      outSlope: 0.1
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  shakeDuration: 0.05
+  hapticDuration: 0.15
+  minimumDistance: 3
+  hapticMinDistance: 5
+  hapticMaxDistance: 20
+  hapticMinStrength: 0.01
+  hapticMaxStrength: 0.15
+--- !u!114 &7781494565938464409
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5198783365679169818}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d78cb8affc2a144cbcb55a9fa22c8f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  laser: {fileID: 0}
+  maxDistance: 10
+  minDistance: 1
+  hapticAtMaxDistance: 0.1
+  hapticAtMinDistance: 0.75
